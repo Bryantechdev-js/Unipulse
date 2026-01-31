@@ -14,9 +14,16 @@ type Assignment = {
   status: "Open" | "Closed";
 };
 
-export default function AssignmentCard({ assignment }: { assignment: Assignment }) {
+export default function AssignmentCard({ assignment }: { assignment: any}) {
   return (
     <Card className="hover:shadow-lg transition-shadow">
+      {assignment.image && (
+        <img
+          src={assignment.image}
+          alt="Assignment image"
+          className="w-full h-48 object-cover rounded-t-lg"
+        />
+      )}
       <CardHeader>
         <CardTitle className="text-lg">
           {assignment.title}
@@ -29,11 +36,11 @@ export default function AssignmentCard({ assignment }: { assignment: Assignment 
         </p>
 
         <p className="text-sm text-muted-foreground">
-          Lecturer: {assignment.lecturer}
+          Lecturer: {assignment.author.name} ({assignment.author.email})
         </p>
 
         <p className="text-sm text-muted-foreground">
-          Deadline: {assignment.deadline}
+          Deadline: {assignment.deadline.date} : {assignment.deadline.time}
         </p>
 
         <div className="flex items-center justify-between pt-2">
@@ -42,7 +49,7 @@ export default function AssignmentCard({ assignment }: { assignment: Assignment 
           </Badge>
 
           <Link
-            href={`/assignments/${assignment.id}`}
+            href={`/student/assigment/${assignment.id}`}
             className="text-sm font-medium text-red-600 hover:underline"
           >
             View Details →

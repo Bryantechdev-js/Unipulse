@@ -1,108 +1,128 @@
 "use client";
 
-import React from "react";
-import { Label } from "@/components/ui/label";
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
+import { useForm } from "react-hook-form";
 import { Button } from "@/components/ui/button";
-import { roles } from "./types";
+import { Input } from "@/components/ui/input";
+import {
+  Select,
+  SelectTrigger,
+  SelectValue,
+  SelectContent,
+  SelectItem,
+} from "@/components/ui/select";
+import { roless } from "./types";
+// import { roles } from "./types";
 
-type StaffFormProps = {
+export type AttendanceFormValues = {
   staffName: string;
-  setStaffName: (name: string) => void;
   role: string;
-  setRole: (role: string) => void;
-  type: string;
-  setType: (type: string) => void;
+  staffType: string;
   department: string;
-  setDepartment: (dept: string) => void;
-  checkingIn: boolean;
-  handleCheckIn: () => void;
 };
 
-export const StaffForm: React.FC<StaffFormProps> = ({
-  staffName,
-  setStaffName,
-  role,
-  setRole,
-  type,
-  setType,
-  department,
-  setDepartment,
+export function StaffForm({
+  onSubmit,
   checkingIn,
-  handleCheckIn,
-}) => {
-  // Update type and department when role changes
-  React.useEffect(() => {
-    setType(roles[role].type[0]);
-    setDepartment(roles[role].departments[0]);
-  }, [role, setType, setDepartment]);
+}: {
+  onSubmit: (data: AttendanceFormValues) => void;
+  checkingIn: boolean;
+}) {
+  const {
+    register,
+    handleSubmit,
+    watch,
+    setValue,
+    formState: { errors },
+  } = useForm<AttendanceFormValues>({
+    defaultValues: {
+      role: "Lecturer",
+      staffType: roless["Lecturer"].type[0],
+      department: roless["Lecturer"][0],
+    },
+  });
+
+  const role = watch("role");
 
   return (
-    <div className="grid grid-cols-1 md:grid-cols-5 gap-4 items-end">
+    <form
+      onSubmit={handleSubmit(onSubmit)}
+      className="grid grid-cols-1 md:grid-cols-4 gap-4"
+    >
       {/* Staff Name */}
-      <div className="flex flex-col">
-        <Label>Staff Name</Label>
-        <input
-          className="border rounded px-2 py-1 dark:bg-slate-800 dark:text-white"
-          placeholder="Enter staff name"
-          value={staffName}
-          onChange={(e) => setStaffName(e.target.value)}
+      <div>
+        <Input
+          placeholder="Staff name"
+          {...register("staffName", { required: "Staff name is required" })}
         />
+        {errors.staffName && (
+          <p className="text-xs text-red-500">
+            {errors.staffName.message}
+          </p>
+        )}
       </div>
 
       {/* Role */}
-      <div className="flex flex-col">
-        <Label>Role</Label>
-        <Select value={role} onValueChange={(val) => setRole(val as string)}>
-          <SelectTrigger>
-            <SelectValue placeholder="Select Role" />
-          </SelectTrigger>
-          <SelectContent>
-            {Object.keys(roles).map((r) => (
-              <SelectItem key={r} value={r}>{r}</SelectItem>
-            ))}
-          </SelectContent>
-        </Select>
-      </div>
+      <Select
+        defaultValue="Lecturer"
+        onValueChange={(val) => {
+          setValue("role", val);
+          setValue("staffType", roless[val].type[0]);
+          setValue("department", roless[val][0]);
+        }}
+      >
+        <SelectTrigger>
+          <SelectValue placeholder="Role" />
+        </SelectTrigger>
+        <SelectContent>
+          {Object.keys(roless).map((r) => (
+            <SelectItem key={r} value={r}>
+              {r}
+            </SelectItem>
+          ))}
+        </SelectContent>
+      </Select>
 
-      {/* Type */}
-      <div className="flex flex-col">
-        <Label>Type</Label>
-        <Select value={type} onValueChange={(val) => setType(val as string)}>
-          <SelectTrigger>
-            <SelectValue placeholder="Select Type" />
-          </SelectTrigger>
-          <SelectContent>
-            {roles[role].type.map((t) => (
-              <SelectItem key={t} value={t}>{t}</SelectItem>
-            ))}
-          </SelectContent>
-        </Select>
-      </div>
+      {/* Staff Type */}
+      <Select
+        defaultValue={roless[role].type[0]}
+        onValueChange={(val) => setValue("staffType", val)}
+      >
+        <SelectTrigger>
+          <SelectValue placeholder="Staff Type" />
+        </SelectTrigger>
+        <SelectContent>
+          {roless[role].type.map((t) => (
+            <SelectItem key={t} value={t}>
+              {t}
+            </SelectItem>
+          ))}
+        </SelectContent>
+      </Select>
 
       {/* Department */}
-      <div className="flex flex-col">
-        <Label>Department</Label>
-        <Select value={department} onValueChange={(val) => setDepartment(val as string)}>
-          <SelectTrigger>
-            <SelectValue placeholder="Select Department" />
-          </SelectTrigger>
-          <SelectContent>
-            {roles[role].departments.map((d) => (
-              <SelectItem key={d} value={d}>{d}</SelectItem>
-            ))}
-          </SelectContent>
-        </Select>
-      </div>
-
-      {/* Check-in Button */}
-      <Button
-        className="w-full"
-        onClick={handleCheckIn}
-        disabled={checkingIn || !staffName}
+      <Select
+        defaultValue={roless[role][0]}
+        onValueChange={(val) => setValue("department", val)}
       >
-        {checkingIn ? "Checking In..." : "Check In"}
+        <SelectTrigger>
+          <SelectValue placeholder="Department" />
+        </SelectTrigger>
+        <SelectContent>
+          {roless[role].map((d) => (
+            <SelectItem key={d} value={d}>
+              {d}
+            </SelectItem>
+          ))}
+        </SelectContent>
+      </Select>
+
+      <Button
+        type="submit"
+        className="md:col-span-4"
+        disabled={checkingIn}
+      >
+        {checkingIn ? "Checking in..." : "Check In"}
       </Button>
-    </div>
+    </form>
   );
-};
+}

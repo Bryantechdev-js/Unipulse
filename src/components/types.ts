@@ -29,3 +29,34 @@ export type AttendanceLog = {
   checkOut?: string;
   status: AttendanceStatus;
 };
+
+
+export type AttendanceStatus =
+  | "Present"
+  | "Late"
+  | "Absent"
+  | "Early Leave";
+
+export type AttendanceLog = {
+  id: string;
+  staffName: string;
+  role: string;
+  staffType: string;
+  department: string;
+  date: string;
+  checkIn?: string;
+  checkOut?: string;
+  status: AttendanceStatus;
+};
+
+export const roless: Record<
+  string,
+  { type: string[] } & string[]
+> = {
+  Lecturer: Object.assign(["Engineering", "Science"], {
+    type: ["Full-Time", "Part-Time"],
+  }),
+  "Office Staff": Object.assign(["Finance", "Registry"], {
+    type: ["Permanent", "Contract"],
+  }),
+};

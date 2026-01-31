@@ -1,37 +1,49 @@
 "use client";
 
-import React, { useState, useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import Navbar from "./Navbar";
-import Eventsidebar from "./Eventsidebar";
+import EventSidebar from "./Eventsidebar";
 import { usePathname } from "next/navigation";
 import { ThemeProvider } from "./them-provider";
 import Footer from "./Footer";
+import { toast, Toaster } from "sonner";
+import { UserRole } from "@/types/auth";
 
-function Layoutcomponent({ children }: { children: React.ReactNode }) {
+type LayoutProps = {
+  role?: UserRole;
+  children: React.ReactNode;
+};
+
+export default function Layoutcomponent({ role, children }: LayoutProps) {
+  // checking if the user is online
+
+  const online = navigator.onLine;
+  if(!online){
+     toast.error('it seems like you are offline')
+     return;
+  }
   const pathname = usePathname();
   const [mounted, setMounted] = useState(false);
 
   useEffect(() => {
-    setMounted(true); // Ensures rendering only after client mount
+    setMounted(true);
   }, []);
 
-  const isAuth = mounted && (pathname === "/login" || pathname === "/register");
+  const isAuthPage =
+    mounted && (pathname === "/login" || pathname === "/register");
 
   return (
-    <ThemeProvider
-      attribute="class"
-      defaultTheme="system"
-      enableSystem
-      disableTransitionOnChange
-    >
-      <div className="sticky top-0 z-50">{!isAuth && <Navbar />}</div>
-      <div className="wrapper flex">
-        <div className="flex-1 top-0 bottom-0">{!isAuth && <Eventsidebar />}</div>
-        <div className="w-full flex justify-center items-center">{children}</div>
+    <ThemeProvider attribute="class" defaultTheme="system" enableSystem>
+      {!isAuthPage && <Navbar />}
+
+      <div className="flex min-h-screen">
+        {!isAuthPage && <EventSidebar authRole={role} />}
+
+        <main className="flex-1 p-6">{children}</main>
       </div>
+
       <Footer />
+      <Toaster />
     </ThemeProvider>
   );
 }
-
-export default Layoutcomponent;

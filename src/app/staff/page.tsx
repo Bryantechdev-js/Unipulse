@@ -1,14 +1,9 @@
-import StaffGreeting from "@/components/StaffGreeting";
-import StaffQuickActions from "@/components/StaffQuickActions";
-
-
-export default function StaffPage() {
+export default function StaffWelcome() {
   return (
-    <div className="min-h-screen bg-background px-4 py-8">
-      <div className="max-w-6xl mx-auto space-y-8">
-        <StaffGreeting />
-        <StaffQuickActions />
-      </div>
+    <div className="min-h-screen flex items-center justify-center">
+      <h1 className="text-3xl font-bold text-muted-foreground">
+        Welcome to UniPulse Staff Portal
+      </h1>
     </div>
   );
 }

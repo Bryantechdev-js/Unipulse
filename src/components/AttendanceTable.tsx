@@ -1,6 +1,5 @@
 "use client";
 
-import React from "react";
 import {
   Table,
   TableBody,
@@ -13,34 +12,24 @@ import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { AttendanceLog } from "./types";
 
-type AttendanceTableProps = {
-  attendanceLog: AttendanceLog[];
-  handleCheckOut: (id: string) => void;
-  checkingOut: boolean;
-};
-
-export const AttendanceTable: React.FC<AttendanceTableProps> = ({
+export function AttendanceTable({
   attendanceLog,
   handleCheckOut,
   checkingOut,
-}) => {
-  const getBadgeVariant = (status: AttendanceLog["status"]) => {
-    switch (status) {
-      case "Present":
-        return "default";
-      case "Late":
-        return "destructive";
-      case "Early Leave":
-        return "secondary";
-      case "Absent":
-        return "outline";
-      default:
-        return "default";
-    }
-  };
+}: {
+  attendanceLog: AttendanceLog[];
+  handleCheckOut: (id: string) => void;
+  checkingOut: boolean;
+}) {
+  const badge = (status: AttendanceLog["status"]) =>
+    status === "Late"
+      ? "destructive"
+      : status === "Present"
+      ? "default"
+      : "outline";
 
   return (
-    <div className="w-full overflow-x-auto rounded-lg border">
+    <div className="border rounded-lg overflow-x-auto">
       <Table>
         <TableHeader>
           <TableRow>
@@ -57,54 +46,35 @@ export const AttendanceTable: React.FC<AttendanceTableProps> = ({
         </TableHeader>
 
         <TableBody>
-          {attendanceLog.length === 0 ? (
-            <TableRow>
-              <TableCell colSpan={9} className="text-center text-muted-foreground py-6">
-                No attendance records for today
+          {attendanceLog.map((log) => (
+            <TableRow key={log.id}>
+              <TableCell>{log.date}</TableCell>
+              <TableCell>{log.staffName}</TableCell>
+              <TableCell>{log.role}</TableCell>
+              <TableCell>
+                <Badge variant="outline">{log.staffType}</Badge>
+              </TableCell>
+              <TableCell>{log.department}</TableCell>
+              <TableCell>{log.checkIn ?? "—"}</TableCell>
+              <TableCell>{log.checkOut ?? "—"}</TableCell>
+              <TableCell>
+                <Badge variant={badge(log.status)}>
+                  {log.status}
+                </Badge>
+              </TableCell>
+              <TableCell className="text-right">
+                <Button
+                  size="sm"
+                  disabled={!!log.checkOut || checkingOut}
+                  onClick={() => handleCheckOut(log.id)}
+                >
+                  Check Out
+                </Button>
               </TableCell>
             </TableRow>
-          ) : (
-            attendanceLog.map((log) => (
-              <TableRow key={log.id}>
-                <TableCell>{log.date}</TableCell>
-
-                <TableCell className="font-medium">
-                  {log.staffName}
-                </TableCell>
-
-                <TableCell>{log.role}</TableCell>
-
-                <TableCell>
-                  <Badge variant="outline">{log.staffType}</Badge>
-                </TableCell>
-
-                <TableCell>{log.department}</TableCell>
-
-                <TableCell>{log.checkIn ?? "—"}</TableCell>
-
-                <TableCell>{log.checkOut ?? "—"}</TableCell>
-
-                <TableCell>
-                  <Badge variant={getBadgeVariant(log.status)}>
-                    {log.status}
-                  </Badge>
-                </TableCell>
-
-                <TableCell className="text-right">
-                  <Button
-                    size="sm"
-                    variant="secondary"
-                    disabled={!!log.checkOut || checkingOut}
-                    onClick={() => handleCheckOut(log.id)}
-                  >
-                    {checkingOut ? "Checking out..." : "Check Out"}
-                  </Button>
-                </TableCell>
-              </TableRow>
-            ))
-          )}
+          ))}
         </TableBody>
       </Table>
     </div>
   );
-};
+}

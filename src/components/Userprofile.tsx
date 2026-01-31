@@ -14,7 +14,7 @@ function Userprofile() {
     <DropdownMenu>
       <DropdownMenuTrigger asChild>
         
-            {imageLink ? <Image className='rounded-full' width={6} height={6} src={"/vercel.svg"} alt='profile-image'/> : <Button variant="outline" size="icon" className=" bg-white text-red-200 dark:text-white  dark:bg-red-200">{"MB"} </Button>}
+            {imageLink ? <Image className='rounded-full' width={6} height={6} src={"/vercel.svg"} alt='profile-image'/> : <Button variant="outline" size="icon" className=" bg-background text-red-200 dark:text-white">{"MB"} </Button>}
         
       </DropdownMenuTrigger>
       <DropdownMenuContent align="end">

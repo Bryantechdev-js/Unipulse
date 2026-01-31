@@ -2,6 +2,8 @@ import { Bell, BookOpen } from 'lucide-react';
 import React from 'react';
 import { ModeToggle } from './Mode-toggle';
 import Userprofile from './Userprofile';
+import { NotificationDropDown } from './notificationDropeDown';
+// import { NotificationDropdown } from './notificationDropeDown';
 
 function Navbar() {
   return (
@@ -18,7 +20,7 @@ function Navbar() {
             </div>
             <div className="right flex space-x-9">
                 <div className="notification cursor-pointer flex items-center justify-center rounded-full  w-8 h-8">
-                    <Bell size={20} className='text-black' />
+                    <NotificationDropDown/>
                 </div>
                 <div className="profileIcon shadow w-8 h-8 flex items-center justify-center rounded-full cursor-pointer">
                     <Userprofile/>

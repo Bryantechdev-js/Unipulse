@@ -12,8 +12,12 @@ import React from "react";
 import Issueform from "../../components/Issueform";
 import Resentissues from "@/components/Resentissues";
 import Issuehistory from "@/components/Issuehistory";
+import { getIssues } from "@/action/issueAction";
+import { log } from "node:console";
 
-function page() {
+async function page() {
+  const result = await getIssues();
+  console.log("this is the issues",result);
   
   return (
     <div>
@@ -21,7 +25,7 @@ function page() {
         <div className="flex-1 p-8">
           <div className="max-w-7xl mx-auto">
             <div className="flex items-center justify-between mb-8">
-              <h1 className="text-3xl font-bold text-gray-900 dark:text-muted-foreground">
+              <h1 className="text-3xl font-bold text-muted-foreground">
                 Issue Submission & Tracking
               </h1>
             </div>
@@ -30,9 +34,9 @@ function page() {
             
                 <Issueform/>
 
-              <Resentissues/>
+              <Resentissues issues={result.issues}/>
 
-              <Issuehistory/>
+              <Issuehistory issues={result.issues}/>
             </div>
 
           </div>

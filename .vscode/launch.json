@@ -1,0 +1,66 @@
+{
+  /* 🧠 AI AUGMENTATION: AMAZON Q (AWS PRIMARY INTELLIGENCE) */
+  "amazon.q.enabled": true,
+  "amazon.q.onboarding": false,
+  "amazon.q.showInlineSuggestions": true,
+  "amazon.q.telemetry": false,
+  "amazon.q.workspaceIndex.enabled": true, 
+  "amazon.q.dev.enabled": true, // Enables Amazon Q Developer (Software Dev agent)
+  "amazon.q.autoScans": true,   // Automatic security/vulnerability scanning on save
+  "editor.inlineSuggest.enabled": true,
+  "editor.suggest.preview": true,
+  "editor.suggest.showMethods": true,
+  "editor.acceptSuggestionOnCommitCharacter": true,
+
+  /* 👁️ ZERO-GUESSWORK UI (GOOGLE/AWS PRINCIPAL STYLE) */
+  "debug.inlineValues": "on", 
+  "debug.showVariableTypes": true,
+  "debug.openDebug": "openOnDebugBreak",
+  "debug.onTaskErrors": "showErrors",
+  "debug.confirmOnExit": "never",
+  "debug.terminal.clearBeforeReusing": true,
+  
+  /* 🔍 ERROR LENS: REAL-TIME FAULT LOCALIZATION */
+  "errorLens.enabled": true,
+  "errorLens.fontStyleItalic": true,
+  "errorLens.fontWeight": "bold",
+  "errorLens.onLineBreak": "report",
+  "errorLens.scrollbarAnnotations": true,
+  "errorLens.messageBackgroundMode": "line",
+  "errorLens.gutterIconSet": "circle",
+
+  /* 🚄 SDLC AUTOMATION & ENTERPRISE STANDARDS */
+  "editor.formatOnSave": true,
+  "editor.codeActionsOnSave": {
+    "source.fixAll": "explicit",
+    "source.organizeImports": "explicit",
+    "source.addMissingImports": "explicit"
+  },
+  "editor.bracketPairColorization.enabled": true,
+  "editor.guides.bracketPairs": "active",
+  "editor.linkedEditing": true,
+  "editor.stablePeek": true,
+
+  /* 🛡️ MULTI-STACK SECURITY & STABILITY */
+  "security.workspace.trust.enabled": true,
+  "npm.packageManager": "npm",
+  "eslint.validate": [
+    "javascript", 
+    "typescript", 
+    "typescriptreact", 
+    "next", 
+    "angular"
+  ],
+  "salesforcedx-vscode-apex.java.home": "/Library/Java/JavaVirtualMachines/zulu-11.jdk/Contents/Home",
+  "salesforcedx-vscode-core.retrieve-test-code-coverage": true,
+
+  /* ⚡ PERFORMANCE & KEYBOARD VELOCITY */
+  "workbench.list.smoothScrolling": true,
+  "editor.cursorSmoothCaretAnimation": "on",
+  "editor.suggestSelection": "first",
+  "terminal.integrated.enableMultiLinePaste": true,
+  "terminal.integrated.scrollback": 10000,
+  "workbench.editor.enablePreview": false, // Keeps tabs open for fast context switching
+  "editor.tabSize": 2,
+  "editor.detectIndentation": true
+}

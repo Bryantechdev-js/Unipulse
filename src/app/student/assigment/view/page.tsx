@@ -1,12 +1,16 @@
 // app/assignments/page.tsx
 
-import AssignmentFilters from "@/components/StudentassignmentFilters";
+// import { getAssigmentAction } from "@/action/getAssigmentAction";
+// import AssignmentFilters from "@/components/StudentassignmentFilters";
+import { getAssignmentAction } from "@/action/getAssigmentAction";
 import AssignmentList from "@/components/StudentassignmentList";
 
 // import AssignmentFilters from "./components/AssignmentFilters";
 // import AssignmentList from "./components/AssignmentList";
 
-export default function ViewAssignmentsPage() {
+export default async function ViewAssignmentsPage() {
+  const result = await getAssignmentAction();
+  console.log("Assignments fetched:", result.data[0].department, result.data[0].id,result);
   return (
     <div className="min-h-screen bg-background px-4 py-8">
       <div className="max-w-6xl mx-auto space-y-6">
@@ -19,8 +23,7 @@ export default function ViewAssignmentsPage() {
           </p>
         </header>
 
-        <AssignmentFilters />
-        <AssignmentList />
+        <AssignmentList assignments={result?.data} />
       </div>
     </div>
   );
